@@ -8,7 +8,6 @@ import { getDocumentAndSenderByToken } from '@documenso/lib/server-only/document
 import { getOrganisationClaimByTeamId } from '@documenso/lib/server-only/organisation/get-organisation-claims';
 import { getRecipientByToken } from '@documenso/lib/server-only/recipient/get-recipient-by-token';
 
-import { BrandingLogo } from '~/components/general/branding-logo';
 import { DocumentSigningAuthProvider } from '~/components/general/document-signing/document-signing-auth-provider';
 import { DocumentSigningProvider } from '~/components/general/document-signing/document-signing-provider';
 import { DocumentSigningRecipientProvider } from '~/components/general/document-signing/document-signing-recipient-provider';
@@ -280,13 +279,6 @@ export default function MultisignPage() {
             </DocumentSigningRecipientProvider>
           </DocumentSigningAuthProvider>
         </DocumentSigningProvider>
-
-        {!hidePoweredBy && (
-          <div className="bg-primary text-primary-foreground fixed bottom-0 left-0 z-40 rounded-tr px-2 py-1 text-xs font-medium opacity-60 hover:opacity-100">
-            <span>Powered by</span>
-            <BrandingLogo className="ml-2 inline-block h-[14px]" />
-          </div>
-        )}
       </div>
     );
   }
@@ -295,13 +287,6 @@ export default function MultisignPage() {
   return (
     <div className="p-4">
       <MultiSignDocumentList envelopes={envelopes} onDocumentSelect={onSelectDocument} />
-
-      {!hidePoweredBy && (
-        <div className="bg-primary text-primary-foreground fixed bottom-0 left-0 z-40 rounded-tr px-2 py-1 text-xs font-medium opacity-60 hover:opacity-100">
-          <span>Powered by</span>
-          <BrandingLogo className="ml-2 inline-block h-[14px]" />
-        </div>
-      )}
     </div>
   );
 }
