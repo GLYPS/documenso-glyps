@@ -1,0 +1,43 @@
+services:
+  documenso-db:
+    image: postgres:16-alpine
+    container_name: documenso-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-documenso}
+      POSTGRES_USER: ${POSTGRES_USER:-documenso}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - documenso-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-documenso}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - documenso-internal
+
+  documenso-app:
+    image: ghcr.io/documenso/documenso:latest
+    container_name: documenso-app
+    restart: unless-stopped
+    depends_on:
+      documenso-db:
+        condition: service_healthy
+    env_file:
+      - .env
+    expose:
+      - '3000'
+    networks:
+      - nginx-proxy-manager_default
+      - documenso-internal
+
+volumes:
+  documenso-db:
+    driver: local
+
+networks:
+  nginx-proxy-manager_default:
+    external: true
+  documenso-internal:
+    internal: true
